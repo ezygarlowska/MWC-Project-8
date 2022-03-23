@@ -2,7 +2,7 @@ clear; clc; close all;
 
 %% Chapter 9 - Sediment transport modelling
 
-%% preliminary computations- orbital velocity time-series
+%% premiorbital velocity time-series
 
 T=6; %[s]
 Uw=1; %[m/s]

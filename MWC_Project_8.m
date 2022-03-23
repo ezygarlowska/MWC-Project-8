@@ -2,7 +2,7 @@ clear; clc; close all;
 
 %% Chapter 9 - Sediment transport modelling
 
-%% Preliminary computations- orbital velocity time-series
+%% 9.1 Preliminary computations- orbital velocity time-series
 
 T=6; %wave period [s]
 Uw=1; %orbital velocity amplitude [m/s]
@@ -47,7 +47,7 @@ ylabel('velocity [m/s]','FontWeight','bold');
 
 %% 9.2 Application to the Egmond fieldwork
 
-%% Sediment transport by waves only
+%% 9.2.1 Sediment transport by waves only
 
 % Sediment transport at each location along the Egmond profile using the SANTOSS model
 
@@ -84,8 +84,32 @@ hmin = 0.2;     % Minimal water depth for computation
 %       Computation of the alongshore current
 %------------------------------------------------
 
-waves = BJmodel(Hrms0,T0,Zeta,theta0,profile,hmin); % computing variables needed for further computation using Battjes and Janssesn model
-%% bb
+% Loading data from the BJ model to calculate 'u'
+waves=load('waves.mat');
+k = waves.waves(2).k;
+eta=waves.waves(2).eta; 
+ht=waves.waves(2).ht; 
+Hrms=waves.waves(2).Hrms; 
+N_last = find(~isnan(eta),1,'last'); 
+k=k(1:N_last);
+eta=eta(1:N_last);
+ht=ht(1:N_last);
+Hrms=Hrms(1:N_last);
+
+for i=(1:length(k))
+% Ursell number
+Ur_BJ = Ursell(k(i),ht(i),Hrms(i));
+% Uw
+Uw = Uw_fun(ht(i),Hrms(i),T0);
+% Empirical Sk and As
+[Sk_BJ_E,As_BJ_E] = empirical_fun(Ur_BJ); 
+
+% We can now compute the orbital velocity 'u'. 
+r = computation_r(Sk_BJ_E,As_BJ_E);
+phi = computation_phi(Sk_BJ_E,As_BJ_E);
+[u,t] = waveshape(r,phi,Uw,T0); 
+end 
+%% Compute u from BJ model 
 %%% Input parameters for the SANTOSS model
 
 % Wave characteristics
@@ -126,4 +150,3 @@ for rI = 1:Nr     % loop on the different values of r considered
         [Qsx(rI) Qsy(rI) Occ(rI) Oct(rI) Ott(rI) Otc(rI)] = SANTOSSmodel(D50,D90,Rhos,T,Urms(rI),R(rI),Beta(rI),0,0);
 end;
     
-   

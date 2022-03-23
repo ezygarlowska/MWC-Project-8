@@ -2,14 +2,13 @@ clear; clc; close all;
 
 %% Chapter 9 - Sediment transport modelling
 
-%% preliminary computations- orbital velocity time-series
+%% Preliminary computations- orbital velocity time-series
 
-T=6; %[s]
-Uw=1; %[m/s]
+T=6; %wave period [s]
+Uw=1; %orbital velocity amplitude [m/s]
 
-r=[0 0.6 0.6 0.6];
-phi=[0 0 -pi/2 -pi/4];
-
+r=[0 0.6 0.6 0.6]; %is a non-linearity measure
+phi=[0 0 -pi/2 -pi/4]; %is a phase
 
 for i=1:4
     [u(:,i),t(:,i)]=waveshape(r(i),phi(i),Uw,T);
@@ -17,6 +16,9 @@ for i=1:4
     dt=t(2,1)-t(1,1); %it is the same for each case
     a(:,i)=gradient(u(:,i),dt);
 end
+
+display(Beta);
+display(R);
 
 figure;
 subplot(2,1,1);

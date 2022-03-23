@@ -13,7 +13,7 @@ clc
 
 % Wave characteristics
 Uw = 1.2;   % orbital velocity amplitude   [m/s]
-T = 7;      % period [s]
+T = 7;      % orbital motion period [s]
 
 % Wave shape parameters 
 r = 0:0.15:0.6;  % define "r" vector from 0 to 0.6 with step size of 0.15
@@ -46,7 +46,9 @@ for rI = 1:Nr     % loop on the different values of r considered
         [R(rI),Beta(rI)]=velocity_skewness_asymmetry(u(:,rI),t(:,1));
 
         
-        % 3- computation of the root-mean squared orbital velocity Urms: should be in CM/S!
+        % 3- computation of the root-mean squared orbital velocity Urms 
+        % (std of orbital velocity timeseries u(t)) 
+        % should be in CM/S!
         Urms(rI)=std(u(:,rI))*100; % multiplied by 100 to get cm/s
         
         % 4- sediment transport calculation

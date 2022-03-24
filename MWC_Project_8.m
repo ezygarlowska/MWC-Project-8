@@ -117,9 +117,8 @@ Uw = 1.2;   % orbital velocity amplitude   [m/s]
 T = 7;      % period [s]
 
 % Wave shape parameters 
-r = 0:0.15:0.6;  % define "r" vector from 0 to 0.6 with step size of 0.15
 Nr = length(r);  % number of elements of r
-PHI = -pi/2;     % skewed wave 
+PHI = phi;     % skewed wave 
 
 % Sediment characteristics
 D50 = 0.225;  % D50 in mm
@@ -134,19 +133,18 @@ Oct = zeros(1,Nr);  % dimensionless sed. load entrained during the crest period 
 Otc = zeros(1,Nr);  % dimensionless sed. load entrained during the trough period and transported during the crest
 Ott = zeros(1,Nr);  % dimensionless sed. load entrained during the trough period and transported during the trough
 
-for rI = 1:Nr     % loop on the different values of r considered
+% loop on the different values of r considered
         
         %1- computation of the time-series of orbital velocity 
-        [u(:,rI),t(:,1)]=waveshape(r(rI),PHI,Uw,T);
+        [u,t]=waveshape(r,PHI,Uw,T);
         
         % 2- computation of the velocity skewness R and the acceleration skewness beta
-        [R(rI),Beta(rI)]=velocity_skewness_asymmetry(u(:,rI),t(:,1));
+        [R,Beta]=velocity_skewness_asymmetry(u,t);
 
         
         % 3- computation of the root-mean squared orbital velocity Urms: should be in CM/S!
-        Urms(rI)=std(u(:,rI))*100; % multiplied by 100 to get cm/s
+        Urms=std(u)*100; % multiplied by 100 to get cm/s
         
         % 4- sediment transport calculation
-        [Qsx(rI) Qsy(rI) Occ(rI) Oct(rI) Ott(rI) Otc(rI)] = SANTOSSmodel(D50,D90,Rhos,T,Urms(rI),R(rI),Beta(rI),0,0);
-end;
+        [Qsx Qsy Occ Oct Ott Otc] = SANTOSSmodel(D50,D90,Rhos,T,Urms,R,Beta,0,0);
     

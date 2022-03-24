@@ -133,7 +133,6 @@ Oct = zeros(1,Nr);  % dimensionless sed. load entrained during the crest period 
 Otc = zeros(1,Nr);  % dimensionless sed. load entrained during the trough period and transported during the crest
 Ott = zeros(1,Nr);  % dimensionless sed. load entrained during the trough period and transported during the trough
 
-% loop on the different values of r considered
         
         %1- computation of the time-series of orbital velocity 
         [u,t]=waveshape(r,PHI,Uw,T);

@@ -101,6 +101,8 @@ ht=ht(1:N_last);
 Hrms=Hrms(1:N_last);
 
 u=zeros(1000,length(k)); 
+Skvectorn=[]
+Asvectorn=[]
 for i=(1:length(k))
 % Ursell number
 Ur_BJ = Ursell(k(i),ht(i),Hrms(i));
@@ -108,6 +110,8 @@ Ur_BJ = Ursell(k(i),ht(i),Hrms(i));
 Uw = Uw_fun(ht(i),Hrms(i),T0);
 % Empirical Sk and As
 [Sk_BJ_E,As_BJ_E] = empirical_fun(Ur_BJ); 
+Skvectorn=[Skvectorn Sk_BJ_E]; 
+Asvectorn=[Asvectorn As_BJ_E]; 
 
 % We can now compute the orbital velocity 'u'. 
 r = computation_r(Sk_BJ_E,As_BJ_E);
@@ -314,7 +318,7 @@ waves=BJmodel(Hrms0s,T0,Zeta,theta0,profile,hmin);
 % Loading data from the BJ model for new Hrms0
 k = waves.k;
 eta=waves.eta; 
-ht=waves .ht; 
+ht=waves.ht; 
 Hrms=waves.Hrms; 
 N_last = find(~isnan(eta),1,'last'); 
 k=k(1:N_last);
@@ -323,6 +327,9 @@ ht=ht(1:N_last);
 Hrms=Hrms(1:N_last);
 
 u=zeros(1000,length(k)); 
+
+Skvectors=[];
+Asvectors=[];
 for i=(1:length(k))
 % Ursell number
 Ur_BJ = Ursell(k(i),ht(i),Hrms(i));
@@ -330,6 +337,8 @@ Ur_BJ = Ursell(k(i),ht(i),Hrms(i));
 Uw = Uw_fun(ht(i),Hrms(i),T0);
 % Empirical Sk and As
 [Sk_BJ_E,As_BJ_E] = empirical_fun(Ur_BJ); 
+Skvectors=[Skvectors Sk_BJ_E]; 
+Asvectors=[Asvectors As_BJ_E]; 
 
 % We can now compute the orbital velocity 'u'. 
 r = computation_r(Sk_BJ_E,As_BJ_E);
@@ -459,6 +468,9 @@ eta=eta(1:N_last);
 ht=ht(1:N_last);
 Hrms=Hrms(1:N_last);
 u=zeros(1000,length(k)); 
+
+Skvectorl=[];
+Asvectorl=[];
 for i=(1:length(k))
 % Ursell number
 Ur_BJ = Ursell(k(i),ht(i),Hrms(i));
@@ -466,6 +478,8 @@ Ur_BJ = Ursell(k(i),ht(i),Hrms(i));
 Uw = Uw_fun(ht(i),Hrms(i),T0);
 % Empirical Sk and As
 [Sk_BJ_E,As_BJ_E] = empirical_fun(Ur_BJ); 
+Skvectorl=[Skvectorl Sk_BJ_E]; 
+Asvectorl=[Asvectorl As_BJ_E]; 
 
 % We can now compute the orbital velocity 'u'. 
 r = computation_r(Sk_BJ_E,As_BJ_E);
@@ -473,6 +487,21 @@ phi = computation_phi(Sk_BJ_E,As_BJ_E);
 [u(:,i),t] = waveshape(r,phi,Uw,T0); 
 %u(:,i) = U; %timeseries for each position 
 end 
+
+figure;
+plot(x(1:2472),Skvectorn); 
+xlim([4000 5000]);
+hold on;
+plot(x(1:2472),Skvectors); 
+plot(x(1:2472),Skvectorl); 
+plot(x(1:2472),Asvectorn); 
+plot(x(1:2472),Asvectors); 
+plot(x(1:2472),Asvectorl); 
+ylabel('As and Sk','FontWeight','bold');
+xlabel('x [m]','FontWeight','bold');
+legend('Sk','Sk small','Sk large','As','As small','As large');
+title('Skeweness and Asimmetry evolution for different offshore wave heights','FontWeight','bold');
+savefig('Matlab8_bonus');
 %% Sediment transport by waves and current
 
 %Computing undertow 
@@ -563,7 +592,7 @@ savefig('Matlab8_12');
 
 %% Compute the bed level change after 10 days
     %We assume that QX stays constant over time 
-deltazbl=-epsilon*QXs*deltat;
+deltazbl=-epsilon*QXl*deltat;
 deltazbl=deltazbl';
 zb10l=zb(1:2472)+deltazbl(1:2472);
 

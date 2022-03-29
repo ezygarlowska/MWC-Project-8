@@ -60,7 +60,7 @@ scatter(r,Qsx);
 ylabel('Q_s_x [m^2/s]','FontWeight','bold');
 xlabel('r','FontWeight','bold');
 title('Dependance of net x-directed sediment transport on r','D50=0.3 mm; \Phi=-\pi/2','FontWeight','bold');
-
+savefig('Matlab8_CoarseSkewed1');
 %% D50=0.1
 
 D50 = 0.1;
@@ -76,3 +76,4 @@ scatter(r,Qsx);
 ylabel('Q_s_x [m^2/s]','FontWeight','bold');
 xlabel('r','FontWeight','bold');
 title('Dependance of net x-directed sediment transport on r' ,'D50=0.1 mm; \Phi=-\pi/2','FontWeight','bold');
+savefig('Matlab8_CoarseSkewed2');

@@ -150,8 +150,9 @@ end
 %Evolution of Qsx as a function of x 
 figure;
 plot(x(1:2472),Qsx); 
-ylabel('Qsx [m^2/s]','FontWeight','bold');
+ylabel('Q_{sx} [m^2/s]','FontWeight','bold');
 xlabel('x [m]','FontWeight','bold');
+xlim([3000 5000]);
 title('Volumetric net transport per unit width in x-direction','FontWeight','bold');
 savefig('Matlab8_2');
 
@@ -163,18 +164,21 @@ epsilon = 0.6
 figure;
 subplot(3,1,1);
 plot(x(1:2472),Qsx); 
-ylabel('Qsx [m^2/s]','FontWeight','bold');
+xlim([3500 5000]);
+ylabel('Q_{sx} [m^2/s]','FontWeight','bold');
 xlabel('x [m]','FontWeight','bold');
 title('Volumetric net transport per unit width in x-direction','FontWeight','bold');
 
 subplot(3,1,2);
 plot(x(1:2472),QX); 
-ylabel('Qsx x gradient [m/s]','FontWeight','bold');
+xlim([3500 5000]);
+ylabel('dQ_{sx}/{dx} [m/s]','FontWeight','bold');
 xlabel('x [m]','FontWeight','bold');
 title('Positional gradient of the volumetric net transport per unit width in x-direction','FontWeight','bold');
 
 subplot(3,1,3);
 plot(x(1:2472),zb(1:2472)); 
+xlim([3500 5000]);
 ylabel('z [m]','FontWeight','bold');
 xlabel('x [m]','FontWeight','bold');
 title('Seabed evolution in the x-direction','FontWeight','bold');

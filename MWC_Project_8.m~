@@ -307,20 +307,8 @@ savefig('Matlab8_7');
 %% 9.2.3 Influence of the offshore wave conditions
 
 %% Small waves 
-% Half wave height offshore 
-Hrms0s=0.5*Hrms0;
-waves=BJmodel(Hrms0s,T0,Zeta,theta0,profile,hmin);
-
-% Loading data from the BJ model for new Hrms0
-k = waves.k;
-eta=waves.eta; 
-ht=waves .ht; 
-Hrms=waves.Hrms; 
-N_last = find(~isnan(eta),1,'last'); 
-k=k(1:N_last);
-eta=eta(1:N_last);
-ht=ht(1:N_last);
-Hrms=Hrms(1:N_last);
+% Loading data from the BJ model to calculate 'u'
+Hrms=0.5*Hrms;
 
 u=zeros(1000,length(k)); 
 for i=(1:length(k))
@@ -341,9 +329,9 @@ end
 
 %Computing undertow 
 rho=1000; %Water density [kg/m^3]
-E=waves.E; %Wave energy
-Er=waves.Er; %Wave energy roller
-c=waves.c; %Wave celerity 
+E=waves.waves(2).E; %Wave energy
+Er=waves.waves(2).Er; %Wave energy roller
+c=waves.waves(2).c; %Wave celerity 
 Ux=undertow(E(1:2472),Er(1:2472),c(1:2472),ht(1:2472),rho,Hrms(1:2472));
 Ux=Ux*100; %in cm/s
 
@@ -444,20 +432,9 @@ xlim([4000 5000]);
 savefig('Matlab8_10');
 
 %% Large waves 
-% Double wave height offshore 
-Hrms0l=2*Hrms0;
-waves=BJmodel(Hrms0l,T0,Zeta,theta0,profile,hmin);
+% Loading data from the BJ model to calculate 'u'
+Hrms=4*Hrms; %Twice the original wave height
 
-% Loading data from the BJ model for new Hrms0
-k = waves.k;
-eta=waves.eta; 
-ht=waves.ht; 
-Hrms=waves.Hrms; 
-N_last = find(~isnan(eta),1,'last'); 
-k=k(1:N_last);
-eta=eta(1:N_last);
-ht=ht(1:N_last);
-Hrms=Hrms(1:N_last);
 u=zeros(1000,length(k)); 
 for i=(1:length(k))
 % Ursell number
@@ -477,9 +454,9 @@ end
 
 %Computing undertow 
 rho=1000; %Water density [kg/m^3]
-E=waves.E; %Wave energy
-Er=waves.Er; %Wave energy roller
-c=waves.c; %Wave celerity 
+E=waves.waves(2).E; %Wave energy
+Er=waves.waves(2).Er; %Wave energy roller
+c=waves.waves(2).c; %Wave celerity 
 Ux=undertow(E(1:2472),Er(1:2472),c(1:2472),ht(1:2472),rho,Hrms(1:2472));
 Ux=Ux*100; %in cm/s
 
@@ -582,17 +559,7 @@ savefig('Matlab8_13');
 %% 9.2.4 Influence of ripples
 
 %Recalculate u for normal wave conditions
-% Loading data from the BJ model to calculate 'u'
-waves=load('waves.mat');
-k = waves.waves(2).k;
-eta=waves.waves(2).eta; 
-ht=waves.waves(2).ht; 
-Hrms=waves.waves(2).Hrms; 
-N_last = find(~isnan(eta),1,'last'); 
-k=k(1:N_last);
-eta=eta(1:N_last);
-ht=ht(1:N_last);
-Hrms=Hrms(1:N_last);
+Hrms=0.5*Hrms; %Original wave height
 
 u=zeros(1000,length(k)); 
 for i=(1:length(k))
